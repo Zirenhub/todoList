@@ -57,7 +57,7 @@ body {
 
 .side-buttons {
     font-size: 1.3rem;
-    color: white;
+    color: black;
     width: 10rem;
     border: 1px solid var(--main-color);
     background-color: transparent;
@@ -159,6 +159,38 @@ body {
 
 .new-task-button-cancel {
     background-color: #be0404;
+}
+
+.project-container {
+    width: 95%;
+    border-radius: 10px;
+    display: flex;
+    justify-content: center;
+    background-color: #a0e0bb;
+    transition: 0.1s ease-in;
+    pointer-events: none;
+    margin-top: 10px;
+    box-shadow: var(--main-box-shadow);
+}
+
+.project-container:hover {
+    background-color: #2abd67;
+}
+
+.project-button {
+    padding: 10px 15px;
+    font-size: 1.1rem;
+    color: black;
+    border: none;
+    cursor: pointer;
+    border-radius: 5px;
+    background-color: #a0e0bb;
+    pointer-events: auto;
+    transition: 0.1s ease-in;
+}
+
+.project-button:hover {
+    background-color: #2abd67;
 }
 
 .tasks-header {
