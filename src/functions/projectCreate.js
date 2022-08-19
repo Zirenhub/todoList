@@ -1,15 +1,38 @@
 import { DOM } from './DOM';
 
-let buttonListener = {
-  addButton: document.querySelector('.new-task-button-add'),
-  cancelButton: document.querySelector('.new-task-button-cancel'),
+let project = {
+  projectAdd: function (projectName) {
+    if (projectName === '') {
+      alert('Project should have a name!');
+      return;
+    }
+    const projectDiv = document.createElement('div');
+    projectDiv.classList.add('project-container');
 
-  listener: function () {
-    this.addButton.addEventListener('click', () => {
-      console.log('TODO ADD');
+    const projectNamePara = document.createElement('button');
+    projectNamePara.classList.add('project-button');
+    projectNamePara.textContent = projectName;
+
+    projectDiv.appendChild(projectNamePara);
+    DOM.projectContainer.appendChild(projectDiv);
+  },
+
+  projectCancel: function (newTaskDiv) {
+    newTaskDiv.remove();
+  },
+
+  listener: function (
+    taskAddButton,
+    taskCancelButton,
+    newTaskField,
+    newTaskDiv
+  ) {
+    taskAddButton.addEventListener('click', () => {
+      let projectName = newTaskField.value;
+      this.projectAdd(projectName);
     });
-    this.cancelButton.addEventListener('click', () => {
-      console.log('TODO CANCEL');
+    taskCancelButton.addEventListener('click', () => {
+      this.projectCancel(newTaskDiv);
     });
   },
 };
@@ -37,7 +60,15 @@ export function createNewProject() {
   newTaskButtons.appendChild(taskCancelButton);
   newTaskDiv.appendChild(newTaskField);
   newTaskDiv.appendChild(newTaskButtons);
-  DOM.projectContainer.appendChild(newTaskDiv);
+  DOM.projectContainer.insertBefore(
+    newTaskDiv,
+    DOM.projectContainer.children[2]
+  );
 
-  buttonListener.listener();
+  project.listener(
+    taskAddButton,
+    taskCancelButton,
+    newTaskField,
+    newTaskDiv
+  );
 }
