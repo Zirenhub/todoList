@@ -15,6 +15,11 @@ let page = {
     }
   },
 
+  selectedProject: function () {
+    const allProjects = DOM.projectButtons;
+    console.log(allProjects);
+  },
+
   bindEvents: function () {
     DOM.sideButtons.forEach((button) => {
       button.addEventListener('click', () => {
@@ -23,6 +28,10 @@ let page = {
       });
     });
     DOM.addProjectButton.addEventListener('click', () => {
+      if (document.querySelector('.new-task-field')) {
+        document.querySelector('.new-task-input').focus();
+        return;
+      }
       createNewProject();
     });
   },
