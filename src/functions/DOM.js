@@ -1,7 +1,8 @@
 export let DOM = {
   sideButtons: document.querySelectorAll('.side-buttons'),
-  addProjectButton: document.querySelector('#addProjects'),
   projectContainer: document.querySelector('.side-projects'),
+  addProjectButton: document.querySelector('#addProjects'),
+  projectButtons: document.querySelectorAll('.project-button'),
   mainPage: document.querySelector('.tasks-container'),
   pageTitle: document.querySelector('#page-title'),
 };
