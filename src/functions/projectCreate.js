@@ -1,8 +1,24 @@
 import { DOM } from './DOM';
 import Project from './projects';
-import { renderPage } from './render';
 
 let projects = [];
+
+const projectPage = () => {
+  const mainToDoPage = document.createElement('div');
+  mainToDoPage.classList.add('main-todo-container');
+
+  const button = document.createElement('button');
+  button.innerHTML = 'test';
+
+  button.addEventListener('click', () => {
+    const paraTest = document.createElement('p');
+    paraTest.innerHTML = 'This is a test';
+    mainToDoPage.appendChild(paraTest);
+  });
+
+  mainToDoPage.appendChild(button);
+  return mainToDoPage;
+};
 
 let project = {
   projectAdd: function (projectName) {
@@ -22,14 +38,19 @@ let project = {
 
     let title = projectNamePara.textContent;
 
-    let newProject = new Project(title, projectNamePara);
-    // newProject.projectNamePara.addEventListener('click', () => {
-    //   // DOM.mainPage.appendChild(newProject.getPage());
-    // });
+    let newProject = new Project(
+      title,
+      projectNamePara,
+      projectPage()
+    );
+    newProject.projectNamePara.addEventListener('click', () => {
+      document
+        .querySelector('.main-todo-container')
+        .replaceWith(newProject.createPage());
+    });
 
     projects.push(newProject);
     console.log(projects);
-    renderPage(newProject);
   },
 
   projectCancel: function (newTaskDiv) {
