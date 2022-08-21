@@ -215,3 +215,32 @@ body {
     font-style: normal;
     font-size: 1.2rem;
 }
+
+.main-todo-container {
+    height: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 20px;
+}
+
+.add-task-btn {
+    padding: 5px 15px;
+    border: 1px solid rgba(0, 0, 0,  0.4);
+    background-color: transparent;
+    transition: 0.15s ease-in;
+}
+
+.add-task-btn:hover {
+    border: 1px solid black;
+}
+
+.add-task-btn:active {
+    transform: scale(0.8);
+}
+
+.task-field {
+    display: flex;
+    flex-direction: column;
+}
+
