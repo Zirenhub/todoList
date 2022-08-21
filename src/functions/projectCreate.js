@@ -1,4 +1,8 @@
 import { DOM } from './DOM';
+import Project from './projects';
+import { renderPage } from './render';
+
+let projects = [];
 
 let project = {
   projectAdd: function (projectName) {
@@ -15,6 +19,17 @@ let project = {
 
     projectDiv.appendChild(projectNamePara);
     DOM.projectContainer.appendChild(projectDiv);
+
+    let title = projectNamePara.textContent;
+
+    let newProject = new Project(title, projectNamePara);
+    // newProject.projectNamePara.addEventListener('click', () => {
+    //   // DOM.mainPage.appendChild(newProject.getPage());
+    // });
+
+    projects.push(newProject);
+    console.log(projects);
+    renderPage(newProject);
   },
 
   projectCancel: function (newTaskDiv) {
@@ -30,6 +45,7 @@ let project = {
     taskAddButton.addEventListener('click', () => {
       let projectName = newTaskField.value;
       this.projectAdd(projectName);
+      newTaskField.value = '';
     });
     taskCancelButton.addEventListener('click', () => {
       this.projectCancel(newTaskDiv);
@@ -37,7 +53,7 @@ let project = {
   },
 };
 
-export function createNewProject() {
+function createNewProject() {
   const newTaskDiv = document.createElement('div');
   newTaskDiv.classList.add('new-task-field');
 
@@ -72,3 +88,5 @@ export function createNewProject() {
     newTaskDiv
   );
 }
+
+export { createNewProject, project, projects };
