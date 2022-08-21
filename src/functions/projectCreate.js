@@ -7,13 +7,70 @@ const projectPage = () => {
   const mainToDoPage = document.createElement('div');
   mainToDoPage.classList.add('main-todo-container');
 
+  // add task button
   const button = document.createElement('button');
-  button.innerHTML = 'test';
+  button.classList.add('add-task-btn');
+  button.innerHTML = 'Add Task';
+
+  // task popup form div
+  const taskDiv = document.createElement('form');
+  taskDiv.classList.add('task-container');
+
+  // task form container
+  const taskField = document.createElement('div');
+  taskField.classList.add('task-field');
+
+  // task label for title
+  const titleLabel = document.createElement('label');
+  titleLabel.innerHTML = 'Title:';
+
+  // input field for task title
+  const titleInput = document.createElement('input');
+  titleInput.classList.add('title-input');
+  titleInput.setAttribute('type', 'text');
+  titleInput.setAttribute(
+    'placeholder',
+    'Enter a title for your ToDo!'
+  );
+
+  // optional description label for description
+  const descriptionLabel = document.createElement('label');
+  descriptionLabel.innerHTML =
+    'You can add description for your ToDo here.';
+
+  // optional textarea for description
+  const descriptionTextArea = document.createElement('textarea');
+  descriptionTextArea.classList.add('description-text-area');
+  descriptionTextArea.setAttribute('type', 'text');
+  descriptionTextArea.setAttribute(
+    'placeholder',
+    'Add your description here (if you so wish to)'
+  );
+
+  // label for date input
+  const dateLabel = document.createElement('label');
+  dateLabel.innerHTML = 'Date:';
+
+  const dateInput = document.createElement('input');
+  dateInput.classList.add('date-input');
+  dateInput.setAttribute('type', 'date');
+
+  // const formButtonsDiv = document.createElement('div');
+  // formButtonsDiv.classList.add('form-buttons-container');
+
+  taskDiv.appendChild(taskField);
+  taskField.appendChild(titleLabel);
+  taskField.appendChild(titleInput);
+  taskField.appendChild(descriptionLabel);
+  taskField.appendChild(descriptionTextArea);
+  taskField.appendChild(dateLabel);
+  taskField.appendChild(dateInput);
 
   button.addEventListener('click', () => {
-    const paraTest = document.createElement('p');
-    paraTest.innerHTML = 'This is a test';
-    mainToDoPage.appendChild(paraTest);
+    if (document.querySelector('.task-container')) {
+      return;
+    }
+    mainToDoPage.appendChild(taskDiv);
   });
 
   mainToDoPage.appendChild(button);
@@ -29,6 +86,14 @@ const projectDelete = (projectDeleteButton) => {
 
     let matchItem = projects.find((item) => item.name === target);
     projects.splice(projects.indexOf(matchItem), 1);
+
+    // if we are deleting the same page we are on right now
+    if (DOM.pageTitle.textContent === target) {
+      const replacement = document.createElement('div');
+      replacement.classList.add('main-todo-container');
+      matchItem.projectPage.replaceWith(replacement);
+      DOM.pageTitle.textContent = 'Page Deleted';
+    }
 
     targetContainer.remove();
     console.log(projects);
