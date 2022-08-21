@@ -20,12 +20,33 @@ const projectPage = () => {
   return mainToDoPage;
 };
 
+const projectDelete = (projectDeleteButton) => {
+  let deleteButton = projectDeleteButton;
+
+  deleteButton.addEventListener('click', () => {
+    // let target = e.target;
+    let target = deleteButton.previousElementSibling.textContent;
+    console.log(target);
+  });
+};
+
+const projectNameCheck = (projectName) => {
+  if (projectName === '') {
+    alert('Project should have a name!');
+    return true;
+  }
+  if (projects.some((item) => projectName === item.name)) {
+    alert("You can't have same named projects!");
+    return true;
+  }
+};
+
 let project = {
   projectAdd: function (projectName) {
-    if (projectName === '') {
-      alert('Project should have a name!');
+    if (projectNameCheck(projectName)) {
       return;
     }
+
     const projectDiv = document.createElement('div');
     projectDiv.classList.add('project-container');
 
@@ -33,24 +54,37 @@ let project = {
     projectNamePara.classList.add('project-button');
     projectNamePara.textContent = projectName;
 
+    const projectDeleteButton = document.createElement('button');
+    projectDeleteButton.classList.add('project-delete-button');
+
+    const projectDeleteIcon = document.createElement('span');
+    projectDeleteIcon.innerHTML = 'close';
+    projectDeleteIcon.classList.add('material-symbols-outlined');
+
+    projectDeleteButton.appendChild(projectDeleteIcon);
     projectDiv.appendChild(projectNamePara);
+    projectDiv.appendChild(projectDeleteButton);
     DOM.projectContainer.appendChild(projectDiv);
 
-    let title = projectNamePara.textContent;
+    let name = projectNamePara.textContent;
 
     let newProject = new Project(
-      title,
+      name,
       projectNamePara,
       projectPage()
     );
+
     newProject.projectNamePara.addEventListener('click', () => {
       document
         .querySelector('.main-todo-container')
         .replaceWith(newProject.createPage());
+      DOM.pageTitle.textContent = name;
     });
 
     projects.push(newProject);
     console.log(projects);
+
+    projectDelete(projectDeleteButton);
   },
 
   projectCancel: function (newTaskDiv) {
