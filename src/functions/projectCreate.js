@@ -23,10 +23,15 @@ const projectPage = () => {
 const projectDelete = (projectDeleteButton) => {
   let deleteButton = projectDeleteButton;
 
-  deleteButton.addEventListener('click', () => {
-    // let target = e.target;
+  deleteButton.addEventListener('click', (e) => {
     let target = deleteButton.previousElementSibling.textContent;
-    console.log(target);
+    let targetContainer = e.currentTarget.parentNode;
+
+    let matchItem = projects.find((item) => item.name === target);
+    projects.splice(projects.indexOf(matchItem), 1);
+
+    targetContainer.remove();
+    console.log(projects);
   });
 };
 
