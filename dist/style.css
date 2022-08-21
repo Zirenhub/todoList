@@ -187,10 +187,21 @@ body {
     background-color: #a0e0bb;
     pointer-events: auto;
     transition: 0.1s ease-in;
+    margin-left: auto;
 }
 
 .project-button:hover {
     background-color: #2abd67;
+}
+
+.project-delete-button {
+    border: none;
+    border-radius: 2px;
+    background-color: #ff4c4c;
+    color: #fff;
+    margin-left: auto;
+    cursor: pointer;
+    pointer-events: auto;
 }
 
 .tasks-header {
