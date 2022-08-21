@@ -2,6 +2,9 @@ import { DOM } from './DOM';
 import Project from './projects';
 
 let projects = [];
+let toDos = [];
+
+const addToDo = () => {};
 
 const projectPage = () => {
   const mainToDoPage = document.createElement('div');
@@ -11,6 +14,12 @@ const projectPage = () => {
   const button = document.createElement('button');
   button.classList.add('add-task-btn');
   button.innerHTML = 'Add Task';
+
+  // add task button + icon
+  const buttonIcon = document.createElement('span');
+  buttonIcon.classList.add('material-symbols-outlined');
+  buttonIcon.innerHTML = 'add';
+  button.appendChild(buttonIcon);
 
   // task popup form div
   const taskDiv = document.createElement('form');
@@ -55,8 +64,21 @@ const projectPage = () => {
   dateInput.classList.add('date-input');
   dateInput.setAttribute('type', 'date');
 
-  // const formButtonsDiv = document.createElement('div');
-  // formButtonsDiv.classList.add('form-buttons-container');
+  // form submit button
+  const SubmitButtonDiv = document.createElement('div');
+  SubmitButtonDiv.classList.add('submit-container');
+
+  // submit input
+  const submitButton = document.createElement('input');
+  submitButton.classList.add('submit-button');
+  submitButton.setAttribute('type', 'submit');
+  submitButton.setAttribute('value', 'Add');
+  SubmitButtonDiv.appendChild(submitButton);
+
+  // prevent submit from sending / refreshing
+  submitButton.addEventListener('click', (e) => {
+    e.preventDefault();
+  });
 
   taskDiv.appendChild(taskField);
   taskField.appendChild(titleLabel);
@@ -65,12 +87,14 @@ const projectPage = () => {
   taskField.appendChild(descriptionTextArea);
   taskField.appendChild(dateLabel);
   taskField.appendChild(dateInput);
+  taskField.appendChild(SubmitButtonDiv);
 
   button.addEventListener('click', () => {
     if (document.querySelector('.task-container')) {
-      return;
+      document.querySelector('.task-container').remove();
+    } else {
+      mainToDoPage.appendChild(taskDiv);
     }
-    mainToDoPage.appendChild(taskDiv);
   });
 
   mainToDoPage.appendChild(button);
