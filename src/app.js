@@ -15,6 +15,11 @@ let page = {
     }
   },
 
+  selectedProject: function () {
+    const allProjects = DOM.projectButtons;
+    console.log(allProjects);
+  },
+
   bindEvents: function () {
     DOM.sideButtons.forEach((button) => {
       button.addEventListener('click', () => {
