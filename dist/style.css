@@ -297,6 +297,23 @@ body {
     background-color: #fff;
 }
 
+.to-do-container:hover {
+    background-color: #cbffe1;
+    cursor: pointer;
+}
+
+.check-box {
+    width: 13px;
+    height: 13px;
+    border: 1px solid black;
+    background-image: url(/src/assets/img/check_box_outline_blank_FILL0_wght400_GRAD0_opsz48.png);
+    /* border-radius: 10px;
+    background-size: 100%;
+    background-repeat: no-repeat;
+    background-origin: border-box;
+    background-color: #fff; */
+}
+
 .to-do-date {
     margin-left: auto;
     border: 1px solid black;
