@@ -5,12 +5,117 @@ import toDoCons from './todos';
 let projects = [];
 let toDos = [];
 
+let tempTitle = '';
+let tempDesc = '';
+let tempDate = '';
+
+const editToDo = (
+  toDoTitle,
+  toDoDesc,
+  toDoDate,
+  modifyEditContent,
+  toDoContainer
+) => {
+  if (modifyEditContent === 'Edit') {
+    const titleInput = document.createElement('input');
+    titleInput.setAttribute('id', 'edit-title');
+    titleInput.setAttribute('type', 'text');
+    titleInput.setAttribute(
+      'placeholder',
+      'Enter a title for your ToDo!'
+    );
+
+    titleInput.addEventListener('change', () => {
+      tempTitle = titleInput.value;
+    });
+
+    const descInput = document.createElement('input');
+    descInput.setAttribute('id', 'edit-desc');
+    descInput.setAttribute('type', 'text');
+    descInput.setAttribute(
+      'placeholder',
+      'Add your description here (if you so wish to)'
+    );
+
+    descInput.addEventListener('change', () => {
+      tempDesc = descInput.value;
+    });
+
+    const dateInput = document.createElement('input');
+    dateInput.setAttribute('id', 'edit-date');
+    dateInput.setAttribute('type', 'date');
+    dateInput.style.marginLeft = 'auto';
+
+    dateInput.addEventListener('change', () => {
+      tempDate = dateInput.value;
+    });
+
+    toDoTitle.replaceWith(titleInput);
+    toDoDesc.replaceWith(descInput);
+    toDoDate.replaceWith(dateInput);
+  } else if (modifyEditContent === 'Save') {
+    let replacementTitle = document.querySelector('#edit-title');
+    let replacementDesc = document.querySelector('#edit-desc');
+    let replacementDate = document.querySelector('#edit-date');
+
+    let matchItem = toDos.find(
+      (item) => item.toDoContainer === toDoContainer
+    );
+
+    if (replacementTitle.value !== '') {
+      toDoTitle.innerHTML = tempTitle;
+      matchItem.changeName(tempTitle);
+      replacementTitle.replaceWith(toDoTitle);
+    } else {
+      replacementTitle.replaceWith(toDoTitle);
+    }
+    if (replacementDesc.value !== '') {
+      toDoDesc.innerHTML = tempDesc;
+      matchItem.changeDescription(tempDesc);
+      replacementDesc.replaceWith(toDoDesc);
+    } else {
+      replacementDesc.replaceWith(toDoDesc);
+    }
+    if (replacementDate.value !== '') {
+      toDoDate.innerHTML = tempDate;
+      matchItem.changeDate(tempDate);
+      replacementDate.replaceWith(toDoDate);
+    } else {
+      replacementDate.replaceWith(toDoDate);
+    }
+  }
+};
+
+const removeToDo = (e) => {
+  let targetContainer = e.currentTarget.parentNode.parentNode;
+
+  let matchItem = toDos.find(
+    (item) => item.toDoContainer === targetContainer
+  );
+  toDos.splice(toDos.indexOf(matchItem), 1);
+
+  targetContainer.remove();
+  console.log(toDos);
+};
+
 const toDoContainer = (title, description, date) => {
   const toDoContainer = document.createElement('div');
   toDoContainer.classList.add('to-do-container');
 
   const check = document.createElement('div');
   check.classList.add('check-box');
+
+  check.addEventListener('click', () => {
+    if (check.classList.contains('checked')) {
+      check.classList.remove('checked');
+      toDoDetails.classList.remove('active');
+      toDoContainer.classList.remove('completed');
+    } else {
+      check.classList.add('checked');
+      toDoDetails.classList.add('active');
+      toDoContainer.classList.add('completed');
+    }
+  });
 
   const toDoDetails = document.createElement('div');
   toDoDetails.classList.add('to-do-details');
@@ -32,6 +137,44 @@ const toDoContainer = (title, description, date) => {
 
   const modifyToDo = document.createElement('div');
   modifyToDo.classList.add('modify-to-do');
+
+  const modifyEdit = document.createElement('button');
+  modifyEdit.classList.add('modify-buttons');
+  modifyEdit.innerHTML = 'Edit';
+
+  modifyEdit.addEventListener('click', () => {
+    let modifyEditContent = modifyEdit.innerHTML;
+    if (modifyEditContent === 'Save') {
+      editToDo(
+        toDoTitle,
+        toDoDesc,
+        toDoDate,
+        modifyEditContent,
+        toDoContainer
+      );
+      modifyEdit.innerHTML = 'Edit';
+    } else {
+      editToDo(
+        toDoTitle,
+        toDoDesc,
+        toDoDate,
+        modifyEditContent,
+        toDoContainer
+      );
+      modifyEdit.innerHTML = 'Save';
+    }
+  });
+
+  const modifyRemove = document.createElement('button');
+  modifyRemove.classList.add('modify-buttons');
+  modifyRemove.innerHTML = 'Remove';
+
+  modifyRemove.addEventListener('click', (e) => {
+    removeToDo(e);
+  });
+
+  modifyToDo.appendChild(modifyEdit);
+  modifyToDo.appendChild(modifyRemove);
 
   toDoContainer.appendChild(check);
   toDoContainer.appendChild(toDoDetails);
@@ -136,7 +279,7 @@ const projectPage = () => {
     let description = descriptionTextArea.value;
     let date = dateInput.value;
 
-    addToDo(title, description, date, toDoContainer());
+    addToDo(title, description, date);
   });
 
   taskDiv.appendChild(taskField);
