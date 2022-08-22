@@ -371,9 +371,9 @@ let project = {
     );
 
     newProject.projectNamePara.addEventListener('click', () => {
-      document
-        .querySelector('.main-todo-container')
-        .replaceWith(newProject.createPage());
+      let replace = DOM.mainPage.childNodes[3];
+      replace.replaceWith(newProject.createPage());
+
       DOM.pageTitle.textContent = name;
     });
 
