@@ -4,7 +4,8 @@
     margin: 0;
     padding: 0;
     box-sizing: border-box;
-    font-family: var(--main-font);;
+    font-family: var(--main-font);
+    ;
 }
 
 body {
@@ -145,7 +146,8 @@ body {
     gap: 10px;
 }
 
-.new-task-button-add, .new-task-button-cancel {
+.new-task-button-add,
+.new-task-button-cancel {
     padding: 5px 15px;
     font-size: 1.1rem;
     color: #fff;
@@ -212,7 +214,7 @@ body {
 .tasks-header {
     display: flex;
     padding: 20px;
-    background-color:greenyellow;
+    background-color: greenyellow;
     border-bottom: 2px solid black;
     color: black;
     justify-content: center;
@@ -231,7 +233,7 @@ body {
 
 .add-task-btn {
     padding: 5px 15px;
-    border: 1px solid rgba(0, 0, 0,  0.4);
+    border: 1px solid rgba(0, 0, 0, 0.4);
     transition: 0.05s ease-in;
     display: flex;
     align-items: center;
@@ -259,7 +261,9 @@ body {
     flex-direction: column;
 }
 
-.title-input, .description-text-area, .date-input {
+.title-input,
+.description-text-area,
+.date-input {
     padding: 5px;
 }
 
@@ -283,7 +287,7 @@ body {
 }
 
 .submit-button:hover {
-    border: 1px solid rgba(0, 0, 0,  0.4);
+    border: 1px solid rgba(0, 0, 0, 0.4);
 }
 
 .to-do-container {
@@ -303,15 +307,10 @@ body {
 }
 
 .check-box {
-    width: 13px;
+    width: 15px;
     height: 13px;
     border: 1px solid black;
     background-image: url(/src/assets/img/check_box_outline_blank_FILL0_wght400_GRAD0_opsz48.png);
-    /* border-radius: 10px;
-    background-size: 100%;
-    background-repeat: no-repeat;
-    background-origin: border-box;
-    background-color: #fff; */
 }
 
 .to-do-date {

@@ -1,3 +1,4 @@
+import './style.css';
 import { DOM } from './functions/DOM';
 import { createNewProject } from './functions/projectCreate';
 
