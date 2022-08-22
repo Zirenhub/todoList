@@ -299,6 +299,7 @@ body {
     border-radius: 10px;
     display: flex;
     background-color: #fff;
+    transition: 0.1s ease-in;
 }
 
 .to-do-container:hover {
@@ -306,11 +307,46 @@ body {
     cursor: pointer;
 }
 
+.to-do-container:active {
+    transform: scale(0.99);
+}
+
 .check-box {
-    width: 15px;
-    height: 13px;
-    border: 1px solid black;
+    width: 25px;
+    height: 25px;
     background-image: url(/src/assets/img/check_box_outline_blank_FILL0_wght400_GRAD0_opsz48.png);
+    background-size: contain;
+    align-self: center;
+}
+
+.check-box.checked {
+    width: 25px;
+    height: 25px;
+    background-image: url(/src/assets/img/check_box_FILL0_wght400_GRAD0_opsz48.png);
+    background-size: contain;
+    align-self: center;
+}
+
+.to-do-container.completed {
+    background-color: #cbffe1;
+}
+
+.to-do-details {
+    margin-left: 10px;
+    display: flex;
+    flex-direction: column;
+}
+
+.to-do-details.active > * {
+    text-decoration: line-through;
+}
+
+.to-do-desc {
+    color: #757575;
+}
+
+.to-do-title {
+    font-size: 1.2rem;
 }
 
 .to-do-date {
@@ -319,4 +355,27 @@ body {
     padding: 5px 10px;
     border-radius: 10px;
     align-self: center;
+}
+
+.modify-to-do {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    margin-left: 10px;
+}
+
+.modify-buttons:last-child {
+    border-top: 1px solid black;
+}
+
+.modify-buttons {
+    border: none;
+    cursor: pointer;
+    background-color: transparent;
+    padding: 5px;
+}
+
+.modify-buttons:hover {
+    border:1px solid black;
 }
