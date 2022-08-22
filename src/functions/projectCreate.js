@@ -1,10 +1,61 @@
 import { DOM } from './DOM';
 import Project from './projects';
+import toDoCons from './todos';
 
 let projects = [];
 let toDos = [];
 
-const addToDo = () => {};
+const toDoContainer = (title, description, date) => {
+  const toDoContainer = document.createElement('div');
+  toDoContainer.classList.add('to-do-container');
+
+  const check = document.createElement('div');
+  check.classList.add('check-box');
+
+  const toDoDetails = document.createElement('div');
+  toDoDetails.classList.add('to-do-details');
+
+  const toDoTitle = document.createElement('div');
+  toDoTitle.classList.add('to-do-title');
+  toDoTitle.innerHTML = title;
+
+  const toDoDesc = document.createElement('div');
+  toDoDesc.classList.add('to-do-desc');
+  toDoDesc.innerHTML = description;
+
+  toDoDetails.appendChild(toDoTitle);
+  toDoDetails.appendChild(toDoDesc);
+
+  const toDoDate = document.createElement('div');
+  toDoDate.classList.add('to-do-date');
+  toDoDate.innerHTML = date;
+
+  const modifyToDo = document.createElement('div');
+  modifyToDo.classList.add('modify-to-do');
+
+  toDoContainer.appendChild(check);
+  toDoContainer.appendChild(toDoDetails);
+  toDoContainer.appendChild(toDoDate);
+  toDoContainer.appendChild(modifyToDo);
+
+  return toDoContainer;
+};
+
+const addToDo = (title, description, date) => {
+  let newToDo = new toDoCons(
+    title,
+    description,
+    date,
+    toDoContainer(title, description, date)
+  );
+
+  toDos.push(newToDo);
+  console.log(toDos);
+
+  document
+    .querySelector('.main-todo-container')
+    .appendChild(newToDo.createPage());
+};
 
 const projectPage = () => {
   const mainToDoPage = document.createElement('div');
@@ -41,6 +92,7 @@ const projectPage = () => {
     'placeholder',
     'Enter a title for your ToDo!'
   );
+  titleInput.setAttribute('required', '');
 
   // optional description label for description
   const descriptionLabel = document.createElement('label');
@@ -63,6 +115,7 @@ const projectPage = () => {
   const dateInput = document.createElement('input');
   dateInput.classList.add('date-input');
   dateInput.setAttribute('type', 'date');
+  dateInput.setAttribute('required', '');
 
   // form submit button
   const SubmitButtonDiv = document.createElement('div');
@@ -78,6 +131,12 @@ const projectPage = () => {
   // prevent submit from sending / refreshing
   submitButton.addEventListener('click', (e) => {
     e.preventDefault();
+
+    let title = titleInput.value;
+    let description = descriptionTextArea.value;
+    let date = dateInput.value;
+
+    addToDo(title, description, date, toDoContainer());
   });
 
   taskDiv.appendChild(taskField);
@@ -93,7 +152,7 @@ const projectPage = () => {
     if (document.querySelector('.task-container')) {
       document.querySelector('.task-container').remove();
     } else {
-      mainToDoPage.appendChild(taskDiv);
+      mainToDoPage.insertBefore(taskDiv, mainToDoPage.children[1]);
     }
   });
 
