@@ -10,6 +10,10 @@ export default class Project {
     this.tasks.push(task);
   }
 
+  // removeTask(task) {
+  //   this.tasks.splice(this.tasks.indexOf(task.toDoContainer), 1);
+  // }
+
   createPage() {
     return this.projectPage;
   }

@@ -4,6 +4,14 @@ export default class toDoCons {
     this.description = description;
     this.date = date;
     this.toDoContainer = toDoContainer;
+    this.uint32 = this.getUniqueKey();
+  }
+
+  getUniqueKey() {
+    const uint32 = window.crypto.getRandomValues(
+      new Uint32Array(1)
+    )[0];
+    return uint32.toString(16);
   }
 
   createPage() {

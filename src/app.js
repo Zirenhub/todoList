@@ -1,13 +1,22 @@
 import './style.css';
 import { DOM } from './functions/DOM';
-import { createNewProject, toDos } from './functions/projectCreate';
+import {
+  createNewProject,
+  toDos,
+  toDoListData,
+  projectsData,
+} from './functions/projectCreate';
+
+window.addEventListener('load', (e) => {});
 
 let allTasksPage = () => {
   if (DOM.pageTitle.textContent === 'All Tasks') {
     return;
   }
   DOM.pageTitle.textContent = 'All Tasks';
+
   let mainPage = document.querySelector('.main-todo-container');
+
   const allTasksPageContent = document.createElement('div');
   allTasksPageContent.classList.add('all-tasks-page-container');
 

@@ -9,6 +9,9 @@ let tempTitle = '';
 let tempDesc = '';
 let tempDate = '';
 
+let toDoListData;
+let projectsData;
+
 const editToDo = (
   toDoTitle,
   toDoDesc,
@@ -62,10 +65,14 @@ const editToDo = (
     let matchItem = toDos.find(
       (item) => item.toDoContainer === toDoContainer
     );
+    let dataMatch = toDoListData.find(
+      (item) => item.uint32 === matchItem.uint32
+    );
 
     if (replacementTitle.value !== '') {
       toDoTitle.innerHTML = tempTitle;
       matchItem.changeName(tempTitle);
+      dataMatch.title = tempTitle;
       replacementTitle.replaceWith(toDoTitle);
     } else {
       replacementTitle.replaceWith(toDoTitle);
@@ -73,6 +80,7 @@ const editToDo = (
     if (replacementDesc.value !== '') {
       toDoDesc.innerHTML = tempDesc;
       matchItem.changeDescription(tempDesc);
+      dataMatch.description = tempDesc;
       replacementDesc.replaceWith(toDoDesc);
     } else {
       replacementDesc.replaceWith(toDoDesc);
@@ -80,26 +88,57 @@ const editToDo = (
     if (replacementDate.value !== '') {
       toDoDate.innerHTML = tempDate;
       matchItem.changeDate(tempDate);
+      dataMatch.date = tempDate;
       replacementDate.replaceWith(toDoDate);
     } else {
       replacementDate.replaceWith(toDoDate);
     }
+    console.log(toDoListData);
   }
 };
 
-const removeToDo = (e) => {
+const removeToDo = (e, parentProject) => {
   let targetContainer = e.currentTarget.parentNode.parentNode;
 
+  // remove from the array of todos
   let matchItem = toDos.find(
     (item) => item.toDoContainer === targetContainer
   );
+
   toDos.splice(toDos.indexOf(matchItem), 1);
 
+  // remove from local storage array
+  let matchData = toDoListData.find(
+    (item) => item.uint32 === matchItem.uint32
+  );
+  toDoListData.splice(toDoListData.indexOf(matchData), 1);
+
+  // remove from local storage project tasks array
+  let matchProjectData = projectsData.find(
+    (item) => item.name === parentProject
+  );
+  let projectDataTasks = matchProjectData.tasks;
+  let toDoProjectIndex = projectDataTasks.find(
+    (item) => item.uint32 === matchItem.uint32
+  );
+  projectDataTasks.splice(
+    projectDataTasks.indexOf(toDoProjectIndex),
+    1
+  );
+
+  // remove from project itself
+  let matchProject = projects.find(
+    (item) => item.name === parentProject
+  );
+  let projectTasks = matchProject.tasks;
+  projectTasks.splice(projectTasks.indexOf(matchItem), 1);
+
   targetContainer.remove();
+
   console.log(toDos);
 };
 
-const toDoContainer = (title, description, date) => {
+const toDoContainer = (title, description, date, parentProject) => {
   const toDoContainer = document.createElement('div');
   toDoContainer.classList.add('to-do-container');
 
@@ -171,7 +210,7 @@ const toDoContainer = (title, description, date) => {
   modifyRemove.innerHTML = 'Remove';
 
   modifyRemove.addEventListener('click', (e) => {
-    removeToDo(e);
+    removeToDo(e, parentProject);
   });
 
   modifyToDo.appendChild(modifyEdit);
@@ -190,7 +229,7 @@ const addToDo = (title, description, date, parentProject) => {
     title,
     description,
     date,
-    toDoContainer(title, description, date)
+    toDoContainer(title, description, date, parentProject)
   );
 
   let matchItem = projects.find(
@@ -198,6 +237,16 @@ const addToDo = (title, description, date, parentProject) => {
   );
   matchItem.addTask(newToDo);
   toDos.push(newToDo);
+
+  let matchData = projectsData.find(
+    (item) => item.name === matchItem.name
+  );
+  matchData.tasks.push(newToDo);
+  console.log(projectsData);
+
+  localStorage.setItem('toDoList', JSON.stringify(toDos));
+  toDoListData = JSON.parse(localStorage.getItem('toDoList'));
+
   console.log(toDos);
 
   document
@@ -318,8 +367,15 @@ const projectDelete = (projectDeleteButton) => {
     let target = deleteButton.previousElementSibling.textContent;
     let targetContainer = e.currentTarget.parentNode;
 
+    // delete from projects array
     let matchItem = projects.find((item) => item.name === target);
     projects.splice(projects.indexOf(matchItem), 1);
+
+    // delete from local storage projects array
+    let matchData = projectsData.find(
+      (item) => item.name === matchItem.name
+    );
+    projectsData.splice(projectsData.indexOf(matchData), 1);
 
     // if we are deleting the same page we are on right now
     if (DOM.pageTitle.textContent === target) {
@@ -396,6 +452,9 @@ let project = {
     projects.push(newProject);
     console.log(projects);
 
+    localStorage.setItem('projectsList', JSON.stringify(projects));
+    projectsData = JSON.parse(localStorage.getItem('projectsList'));
+
     projectDelete(projectDeleteButton);
   },
 
@@ -456,4 +515,11 @@ function createNewProject() {
   );
 }
 
-export { createNewProject, project, projects, toDos, toDoContainer };
+export {
+  createNewProject,
+  project,
+  projects,
+  toDos,
+  toDoContainer,
+  toDoListData,
+};
