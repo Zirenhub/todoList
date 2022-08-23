@@ -1,10 +1,6 @@
 import './style.css';
 import { DOM } from './functions/DOM';
-import {
-  createNewProject,
-  toDos,
-  toDoContainer,
-} from './functions/projectCreate';
+import { createNewProject, toDos } from './functions/projectCreate';
 
 let allTasksPage = () => {
   if (DOM.pageTitle.textContent === 'All Tasks') {
@@ -18,20 +14,8 @@ let allTasksPage = () => {
   let cloneToDos = toDos.slice();
 
   cloneToDos.forEach((item) => {
-    // item = new toDoCons(
-    //   item.title,
-    //   item.description,
-    //   item.date,
-    //   toDoContainer
-    // );
-    // allTasksPageContent.appendChild(
-    //   item.toDoContainer(item.title, item.description, item.date)
-    // );
-
     allTasksPageContent.appendChild(item.createPage());
   });
-  console.log(cloneToDos);
-  console.log(toDos);
 
   mainPage.replaceWith(allTasksPageContent);
 };
