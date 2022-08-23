@@ -381,23 +381,14 @@ let project = {
     newProject.projectNamePara.addEventListener('click', () => {
       let replace = DOM.mainPage.childNodes[3];
 
-      if (replace.className === 'all-tasks-page-container') {
-        replace.replaceWith(newProject.createPage(name));
-        let replacePage = document.querySelector(
-          '.main-todo-container'
-        );
-        let tasks = newProject.tasks;
-        tasks.forEach((item) => {
-          replacePage.appendChild(item.createPage());
-        });
-      } else {
-        let replacePage = newProject.createPage(name);
-        replace.replaceWith(replacePage);
-        let tasks = newProject.tasks;
-        tasks.forEach((item) => {
-          replacePage.appendChild(item.createPage());
-        });
-      }
+      let replacePage = newProject.createPage(name);
+      let tasks = newProject.tasks;
+
+      replace.replaceWith(replacePage);
+
+      tasks.forEach((item) => {
+        replacePage.appendChild(item.createPage());
+      });
 
       DOM.pageTitle.textContent = name;
     });
