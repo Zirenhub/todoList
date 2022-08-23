@@ -379,3 +379,9 @@ body {
 .modify-buttons:hover {
     border:1px solid black;
 }
+
+.all-tasks-page-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}

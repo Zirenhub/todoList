@@ -30,6 +30,7 @@ const editToDo = (
     });
 
     const descInput = document.createElement('input');
+    descInput.maxLength = '50';
     descInput.setAttribute('id', 'edit-desc');
     descInput.setAttribute('type', 'text');
     descInput.setAttribute(
@@ -245,6 +246,7 @@ const projectPage = () => {
   // optional textarea for description
   const descriptionTextArea = document.createElement('textarea');
   descriptionTextArea.classList.add('description-text-area');
+  descriptionTextArea.maxLength = '50';
   descriptionTextArea.setAttribute('type', 'text');
   descriptionTextArea.setAttribute(
     'placeholder',
@@ -440,4 +442,4 @@ function createNewProject() {
   );
 }
 
-export { createNewProject, project, projects };
+export { createNewProject, project, projects, toDos, toDoContainer };

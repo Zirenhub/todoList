@@ -1,17 +1,34 @@
 import './style.css';
 import { DOM } from './functions/DOM';
-import { createNewProject } from './functions/projectCreate';
+import {
+  createNewProject,
+  toDos,
+  toDoContainer,
+} from './functions/projectCreate';
+import toDoCons from './functions/todos';
 
 let allTasksPage = () => {
   if (DOM.pageTitle.textContent === 'All Tasks') {
     return;
   }
-  let mainPage = document.querySelector('.main-todo-container');
-
   DOM.pageTitle.textContent = 'All Tasks';
-
+  let mainPage = document.querySelector('.main-todo-container');
   const allTasksPageContent = document.createElement('div');
   allTasksPageContent.classList.add('all-tasks-page-container');
+
+  let cloneToDos = JSON.parse(JSON.stringify(toDos));
+
+  cloneToDos.forEach((item) => {
+    item = new toDoCons(
+      item.title,
+      item.description,
+      item.date,
+      toDoContainer
+    );
+    allTasksPageContent.appendChild(
+      item.toDoContainer(item.title, item.description, item.date)
+    );
+  });
 
   mainPage.replaceWith(allTasksPageContent);
 };
@@ -23,7 +40,7 @@ let page = {
     } else if (buttonText === 'All Tasks') {
       allTasksPage();
     } else {
-      changeTitleToday(DOM.pageTitle);
+      // TODO
     }
   },
 
