@@ -5,7 +5,6 @@ import {
   toDos,
   toDoContainer,
 } from './functions/projectCreate';
-import toDoCons from './functions/todos';
 
 let allTasksPage = () => {
   if (DOM.pageTitle.textContent === 'All Tasks') {
@@ -16,19 +15,23 @@ let allTasksPage = () => {
   const allTasksPageContent = document.createElement('div');
   allTasksPageContent.classList.add('all-tasks-page-container');
 
-  let cloneToDos = JSON.parse(JSON.stringify(toDos));
+  let cloneToDos = toDos.slice();
 
   cloneToDos.forEach((item) => {
-    item = new toDoCons(
-      item.title,
-      item.description,
-      item.date,
-      toDoContainer
-    );
-    allTasksPageContent.appendChild(
-      item.toDoContainer(item.title, item.description, item.date)
-    );
+    // item = new toDoCons(
+    //   item.title,
+    //   item.description,
+    //   item.date,
+    //   toDoContainer
+    // );
+    // allTasksPageContent.appendChild(
+    //   item.toDoContainer(item.title, item.description, item.date)
+    // );
+
+    allTasksPageContent.appendChild(item.createPage());
   });
+  console.log(cloneToDos);
+  console.log(toDos);
 
   mainPage.replaceWith(allTasksPageContent);
 };

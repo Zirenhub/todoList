@@ -185,7 +185,7 @@ const toDoContainer = (title, description, date) => {
   return toDoContainer;
 };
 
-const addToDo = (title, description, date) => {
+const addToDo = (title, description, date, parentProject) => {
   let newToDo = new toDoCons(
     title,
     description,
@@ -193,6 +193,10 @@ const addToDo = (title, description, date) => {
     toDoContainer(title, description, date)
   );
 
+  let matchItem = projects.find(
+    (item) => item.name === parentProject
+  );
+  matchItem.addTask(newToDo);
   toDos.push(newToDo);
   console.log(toDos);
 
@@ -201,7 +205,9 @@ const addToDo = (title, description, date) => {
     .appendChild(newToDo.createPage());
 };
 
-const projectPage = () => {
+const projectPage = (name) => {
+  let parentProject = name;
+
   const mainToDoPage = document.createElement('div');
   mainToDoPage.classList.add('main-todo-container');
 
@@ -281,7 +287,7 @@ const projectPage = () => {
     let description = descriptionTextArea.value;
     let date = dateInput.value;
 
-    addToDo(title, description, date);
+    addToDo(title, description, date, parentProject);
   });
 
   taskDiv.appendChild(taskField);
@@ -369,12 +375,29 @@ let project = {
     let newProject = new Project(
       name,
       projectNamePara,
-      projectPage()
+      projectPage(name)
     );
 
     newProject.projectNamePara.addEventListener('click', () => {
       let replace = DOM.mainPage.childNodes[3];
-      replace.replaceWith(newProject.createPage());
+
+      if (replace.className === 'all-tasks-page-container') {
+        replace.replaceWith(newProject.createPage(name));
+        let replacePage = document.querySelector(
+          '.main-todo-container'
+        );
+        let tasks = newProject.tasks;
+        tasks.forEach((item) => {
+          replacePage.appendChild(item.createPage());
+        });
+      } else {
+        let replacePage = newProject.createPage(name);
+        replace.replaceWith(replacePage);
+        let tasks = newProject.tasks;
+        tasks.forEach((item) => {
+          replacePage.appendChild(item.createPage());
+        });
+      }
 
       DOM.pageTitle.textContent = name;
     });
