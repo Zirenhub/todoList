@@ -385,3 +385,9 @@ body {
     align-items: center;
     flex-direction: column;
 }
+
+.today-page-container {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
