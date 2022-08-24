@@ -50,6 +50,31 @@ let allTasksPage = () => {
   mainPage.replaceWith(allTasksPageContent);
 };
 
+let todayPage = () => {
+  DOM.pageTitle.textContent = 'Today';
+
+  let mainPage = DOM.mainPage.children[1];
+
+  const todayPageContent = document.createElement('div');
+  todayPageContent.classList.add('today-page-container');
+
+  let cloneToDos = toDos.slice();
+
+  cloneToDos.forEach((item) => {
+    let taskDate = new Date(item.date);
+    let todayDate = new Date();
+    if (
+      taskDate.getDate() === todayDate.getDate() &&
+      taskDate.getMonth() === todayDate.getMonth() &&
+      taskDate.getFullYear() === todayDate.getFullYear()
+    ) {
+      todayPageContent.appendChild(item.createPage());
+    }
+  });
+
+  mainPage.replaceWith(todayPageContent);
+};
+
 let page = {
   changePage: function (buttonText) {
     if (buttonText === 'Important') {
@@ -57,7 +82,7 @@ let page = {
     } else if (buttonText === 'All Tasks') {
       allTasksPage();
     } else {
-      // TODO
+      todayPage();
     }
   },
 
