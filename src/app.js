@@ -11,7 +11,6 @@ const importedProjects = JSON.parse(
 );
 
 window.addEventListener('load', (e) => {
-  console.log(importedProjects);
   const projectAddFunc = (name, taskArray) =>
     project.projectAdd(name, taskArray);
   if (importedProjects !== null) {
