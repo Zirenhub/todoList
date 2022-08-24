@@ -2,20 +2,42 @@ import './style.css';
 import { DOM } from './functions/DOM';
 import {
   createNewProject,
+  project,
   toDos,
-  toDoListData,
-  projectsData,
 } from './functions/projectCreate';
 
-window.addEventListener('load', (e) => {});
+const importedProjects = JSON.parse(
+  localStorage.getItem('projectsData')
+);
+
+window.addEventListener('load', (e) => {
+  console.log(importedProjects);
+  const projectAddFunc = (name, taskArray) =>
+    project.projectAdd(name, taskArray);
+  if (importedProjects !== null) {
+    importedProjects.forEach((item) => {
+      let name = item.name;
+      let tasks = item.tasks;
+      if (tasks.length) {
+        console.log(`${name} has tasks !`);
+        let taskArray = [];
+        tasks.forEach((item) => {
+          taskArray.push(item);
+        });
+        projectAddFunc(name, taskArray);
+      } else {
+        projectAddFunc(name);
+      }
+    });
+    allTasksPage();
+  }
+  allTasksPage();
+});
 
 let allTasksPage = () => {
-  if (DOM.pageTitle.textContent === 'All Tasks') {
-    return;
-  }
   DOM.pageTitle.textContent = 'All Tasks';
 
-  let mainPage = document.querySelector('.main-todo-container');
+  let mainPage = DOM.mainPage.children[1];
 
   const allTasksPageContent = document.createElement('div');
   allTasksPageContent.classList.add('all-tasks-page-container');
@@ -58,3 +80,5 @@ let page = {
 };
 
 page.bindEvents();
+
+export { allTasksPage };
