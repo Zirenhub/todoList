@@ -137,24 +137,42 @@ const removeToDo = (e, parentProject) => {
   console.log(toDos);
 };
 
-const toDoContainer = (title, description, date, parentProject) => {
+const changeToDoStatus = (check, toDoDetails, toDoContainer) => {
+  const matchItem = toDos.find(
+    (item) => item.toDoContainer === toDoContainer
+  );
+
+  matchItem.finished === true
+    ? (matchItem.finished = false)
+    : (matchItem.finished = true);
+
+  if (matchItem.finished === true) {
+    check.classList.add('checked');
+    toDoDetails.classList.add('active');
+    toDoContainer.classList.add('completed');
+  } else {
+    check.classList.remove('checked');
+    toDoDetails.classList.remove('active');
+    toDoContainer.classList.remove('completed');
+  }
+
+  updateStorage();
+
+  return matchItem.finished;
+};
+
+const toDoContainer = (
+  title,
+  description,
+  date,
+  parentProject,
+  finished
+) => {
   const toDoContainer = document.createElement('div');
   toDoContainer.classList.add('to-do-container');
 
   const check = document.createElement('div');
   check.classList.add('check-box');
-
-  check.addEventListener('click', () => {
-    if (check.classList.contains('checked')) {
-      check.classList.remove('checked');
-      toDoDetails.classList.remove('active');
-      toDoContainer.classList.remove('completed');
-    } else {
-      check.classList.add('checked');
-      toDoDetails.classList.add('active');
-      toDoContainer.classList.add('completed');
-    }
-  });
 
   const toDoDetails = document.createElement('div');
   toDoDetails.classList.add('to-do-details');
@@ -212,6 +230,18 @@ const toDoContainer = (title, description, date, parentProject) => {
     removeToDo(e, parentProject);
   });
 
+  // checkbox
+  check.addEventListener('click', () => {
+    changeToDoStatus(check, toDoDetails, toDoContainer);
+  });
+
+  // check if task is done
+  if (finished === true) {
+    check.classList.add('checked');
+    toDoDetails.classList.add('active');
+    toDoContainer.classList.add('completed');
+  }
+
   modifyToDo.appendChild(modifyEdit);
   modifyToDo.appendChild(modifyRemove);
 
@@ -223,13 +253,41 @@ const toDoContainer = (title, description, date, parentProject) => {
   return toDoContainer;
 };
 
-const addToDo = (title, description, date, parentProject) => {
-  let newToDo = new toDoCons(
-    title,
-    description,
-    date,
-    toDoContainer(title, description, date, parentProject)
-  );
+const addToDo = (
+  title,
+  description,
+  date,
+  parentProject,
+  finished
+) => {
+  let newToDo;
+
+  // if finished is true then we are taking from local storage if it is undefined,
+  // then we are creating a new todo if it is false we are taking from local storage,
+  // but it doesn't matter.
+  if (finished === true) {
+    newToDo = new toDoCons(
+      title,
+      description,
+      date,
+      toDoContainer(
+        title,
+        description,
+        date,
+        parentProject,
+        finished
+      ),
+      finished
+    );
+  } else {
+    newToDo = new toDoCons(
+      title,
+      description,
+      date,
+      toDoContainer(title, description, date, parentProject),
+      false
+    );
+  }
 
   // add todo to the parent project
   let matchItem = projects.find(
@@ -245,12 +303,9 @@ const addToDo = (title, description, date, parentProject) => {
     (item) => item.name === matchItem.name
   );
   matchData.tasks.push(newToDo);
-  console.log(projectsData);
 
   // update local storage projects data
   localStorage.setItem('projectsData', JSON.stringify(projectsData));
-
-  console.log(toDos);
 
   document
     .querySelector('.main-todo-container')
@@ -461,7 +516,8 @@ let project = {
           let description = item.description;
           let date = item.date;
           let parentProject = name;
-          addToDo(title, description, date, parentProject);
+          let finished = item.finished;
+          addToDo(title, description, date, parentProject, finished);
         });
       }
 
