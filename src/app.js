@@ -1,14 +1,8 @@
 import './style.css';
 import { DOM } from './functions/DOM';
-import {
-  createNewProject,
-  project,
-  toDos,
-} from './functions/projectCreate';
+import { createNewProject, project, toDos } from './functions/projectCreate';
 
-const importedProjects = JSON.parse(
-  localStorage.getItem('projectsData')
-);
+const importedProjects = JSON.parse(localStorage.getItem('projectsData'));
 
 window.addEventListener('load', (e) => {
   const projectAddFunc = (name, taskArray) =>
